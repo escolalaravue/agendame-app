@@ -10,7 +10,7 @@ const router = createRouter({
             path: '/:pathMatch(.*)*',
             component: () => import('@/views/Error404.vue')
         },
-        MainRoutes,
+        ...MainRoutes,
         ...AuthRoutes,
     ]
 });
