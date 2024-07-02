@@ -61,7 +61,14 @@
               {{ plan.description }}
             </div>
 
-            <v-btn block flat color="primary" size="large">Selecione</v-btn>
+            <v-btn
+              v-if="plan.name !== 'Freemium'"
+              block
+              flat
+              color="primary"
+              size="large"
+              @click="subscribe(plan.id)"
+            >Selecione</v-btn>
           </v-card>
         </v-col>
       </v-row>
@@ -73,13 +80,26 @@
 import {useAsyncState} from '@vueuse/core';
 import axios from 'axios';
 import {computed, ref} from 'vue';
+import {useMeStore} from '@/store/me';
 
+const meStore = useMeStore();
 const {isLoading, state: plans} = useAsyncState(
   axios.get('api/plans').then(r => r.data.data)
 )
 
 const frequency = ref('monthly')
 const isMonthly = computed(() => frequency.value === 'monthly')
+
+function subscribe(planId) {
+  axios.post('api/subscription', {
+    plan_id: planId,
+    frequency: frequency.value,
+    team_token: meStore.currentTeamToken
+  }).then((response) => {
+    window.location.href = response.data.stripe_checkout_url;
+  })
+}
+
 </script>
 
 <style scoped>
