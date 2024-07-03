@@ -54,7 +54,7 @@
       </td>
 
       <td class="text-right">
-        <v-menu>
+        <v-menu v-if="team.is_admin">
           <template #activator="{ props }">
             <v-btn
               flat

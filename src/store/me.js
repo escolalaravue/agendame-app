@@ -36,12 +36,10 @@ export const useMeStore = defineStore('me', {
     defaultTeam: (state) => state?.user?.teams.find(o => o.default),
     currentTeam: (state) => {
       const team = state?.user?.teams.find(o => o.token === state.currentTeamToken)
-      const hasAdminRole = team.roles.flatMap(o => o.name).includes('admin')
 
       return {
         ...team,
-        test: hasAdminRole,
-        show_ads: hasAdminRole && !team.has_subscription,
+        show_ads: team.is_admin && !team.has_subscription,
       }
     }
   }
