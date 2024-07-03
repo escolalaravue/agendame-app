@@ -12,6 +12,17 @@
               @click="changeTeam(team)"
             >
               <v-list-item-title>{{ team.name }}</v-list-item-title>
+              <template #append>
+                <v-chip
+                  v-if="team.hasOwnProperty('subscription_type')"
+                  size="small"
+                  variant="tonal"
+                  color="warning"
+                  class="ml-2"
+                >
+                  {{ team.subscription_type }}
+                </v-chip>
+              </template>
             </v-list-item>
           </v-list>
 

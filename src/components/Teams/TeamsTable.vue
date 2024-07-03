@@ -22,6 +22,16 @@
       <td>
         {{ team.name }}
         <v-chip
+          v-if="team.hasOwnProperty('subscription_type')"
+          size="small"
+          variant="tonal"
+          color="warning"
+          class="ml-2"
+        >
+          {{ team.subscription_type }}
+        </v-chip>
+
+        <v-chip
           v-if="team.default"
           size="small"
           variant="tonal"
