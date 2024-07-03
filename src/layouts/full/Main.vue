@@ -10,7 +10,9 @@ import {Menu2Icon, BellRingingIcon, SelectorIcon} from 'vue-tabler-icons';
 // import NotificationDD from './vertical-header/NotificationDD.vue';
 import ProfileDD from './vertical-header/ProfileDD.vue';
 import TeamMenu from '@/layouts/full/team-menu/TeamMenu.vue';
+import {useMeStore} from '@/store/me'
 
+const meStore = useMeStore()
 const sidebarMenu = shallowRef(sidebarItems);
 const sDrawer = ref(true);
 </script>
@@ -67,7 +69,11 @@ const sDrawer = ref(true);
           <!---End Single Item-->
         </template>
       </v-list>
-      <div class="pa-4">
+
+      <div
+        v-if="meStore.currentTeam.show_ads"
+        class="pa-4"
+      >
         <ExtraBox/>
       </div>
     </div>
