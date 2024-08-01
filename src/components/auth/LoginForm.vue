@@ -74,7 +74,7 @@ const router = useRouter()
 function login(values) {
   feedbackMessage.value = ''
 
-  authStore
+  return authStore
     .login(values.email, values.password)
     .then(() => {
       router.push({name: 'dashboard'})
