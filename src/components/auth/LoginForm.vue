@@ -53,8 +53,8 @@ const schema = object({
 const {handleSubmit, errors, isSubmitting} = useForm({
   validationSchema: schema,
   initialValues: {
-    email: 'test@example.com',
-    password: 'password'
+    email: '',
+    password: ''
   }
 })
 

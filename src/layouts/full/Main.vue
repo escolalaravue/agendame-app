@@ -57,7 +57,7 @@ const sDrawer = ref(true);
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
     <!-- ---------------------------------------------- -->
-    <div>
+    <div class="scrollnavbar">
       <v-list class="pa-6">
         <!---Menu Loop -->
         <template v-for="(item, i) in sidebarMenu">
