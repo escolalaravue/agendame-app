@@ -45,5 +45,12 @@ export const useTeamsStore = defineStore('teams', {
       return axios.delete(`api/team-members/${id}`)
         .then(r => r.data.data)
     },
+
+    updateTeamMemberRole(id, role) {
+      return axios.put(`api/team-members/${id}`, {
+        role
+      })
+        .then(r => r.data.data)
+    },
   }
 })

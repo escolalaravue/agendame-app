@@ -10,68 +10,18 @@
           {{ member.first_name }} ({{ member.email }})
         </div>
         <div>
-          <v-dialog width="auto">
-            <template #activator="{ props: activatorProps }">
-              <v-chip
-                size="small"
-                variant="tonal"
-                class="ml-2"
-                v-bind="activatorProps"
-              >
-                {{ member.role }}
-              </v-chip>
-            </template>
-
-            <template #default="{ isActive }">
-              <v-card width="400">
-                <v-card-title>Atualizar cargo</v-card-title>
-
-                <v-card-text>
-                  <v-form>
-                    <v-select
-                      label="Cargo"
-                      variant="outlined"
-                      color="primary"
-                      :items="[
-                          {
-                            label: 'Admin',
-                            value: 1
-                          },
-                          {
-                            label: 'Atendente',
-                            value: 2
-                          }
-                        ]"
-                      item-title="label"
-                      item-value="value"
-                    />
-
-                    <div class="text-right">
-                      <v-btn
-                        flat
-                        text="Cancelar"
-                        @click="isActive.value = false"
-                      />
-
-                      <v-btn
-                        type="submit"
-                        flat
-                        color="primary"
-                        text="Atualizar cargo"
-                      />
-                    </div>
-                  </v-form>
-                </v-card-text>
-              </v-card>
-            </template>
-          </v-dialog>
+          <TeamMemberUpdateRole
+            :member-id="member.id"
+            :member-role="member.role"
+            @done="(role) => member.role = role"
+          />
         </div>
       </div>
 
       <template #append>
         <TeamMemberKick
           :member-id="member.id"
-          @done="onKicked"
+          @done="() => emit('kick')"
         />
       </template>
     </v-list-item>
@@ -80,6 +30,7 @@
 
 <script setup>
 import TeamMemberKick from '@/components/Settings/TeamMembers/TeamMemberKick.vue';
+import TeamMemberUpdateRole from '@/components/Settings/TeamMembers/TeamMemberUpdateRole.vue';
 
 const emit = defineEmits(['kick'])
 defineProps({
@@ -88,8 +39,4 @@ defineProps({
     default: () => []
   }
 })
-
-function onKicked() {
-  emit('kick')
-}
 </script>
