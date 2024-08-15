@@ -31,6 +31,11 @@ export default [
         path: '/clientes',
         component: () => import('@/views/clients/index.vue')
       },
+      {
+        name: 'settings',
+        path: '/configuracoes',
+        component: () => import('@/views/settings/index.vue')
+      },
     ]
   },
   {

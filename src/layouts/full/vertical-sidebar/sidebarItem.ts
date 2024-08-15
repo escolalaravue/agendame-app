@@ -2,6 +2,7 @@ import {
   Home2Icon,
   CalendarIcon,
   UsersIcon,
+  Settings2Icon
 } from 'vue-tabler-icons';
 
 export interface menu {
@@ -34,6 +35,11 @@ const sidebarItem: menu[] = [
     title: 'Clientes',
     icon: UsersIcon,
     to: { name: 'clients' },
+  },
+  {
+    title: 'Configurações',
+    icon: Settings2Icon,
+    to: { name: 'settings' },
   },
 ];
 
