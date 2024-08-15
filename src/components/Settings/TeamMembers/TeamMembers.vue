@@ -20,7 +20,10 @@
       />
 
       <template v-else>
-        <TeamMembersActive :members="activeMembers"/>
+        <TeamMembersActive
+          :members="activeMembers"
+          @kick="onKick"
+        />
 
 <!--        <TeamMembersPending/>-->
       </template>
@@ -37,5 +40,13 @@ import {useTeamsStore} from '@/store/teams';
 
 const teamStore = useTeamsStore()
 
-const {isLoading, state: activeMembers} = useAsyncState(teamStore.getTeamMembers())
+const {
+  isLoading,
+  state: activeMembers,
+  execute
+} = useAsyncState(() => teamStore.getTeamMembers())
+
+function onKick() {
+  execute()
+}
 </script>
