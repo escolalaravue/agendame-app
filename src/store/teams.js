@@ -34,6 +34,11 @@ export const useTeamsStore = defineStore('teams', {
 
       const idx = this.teams.findIndex(o => o.token === teamToken)
       this.teams.splice(idx, 1)
-    }
+    },
+
+    getTeamMembers() {
+      return axios.get('api/team-members')
+        .then(r => r.data.data)
+    },
   }
 })
