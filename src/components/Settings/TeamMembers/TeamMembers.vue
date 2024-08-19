@@ -25,7 +25,9 @@
           @kick="onKick"
         />
 
-<!--        <TeamMembersPending/>-->
+        <TeamInvitationsPending
+          :invitations="invitationsPending"
+        />
       </template>
     </v-card-item>
   </v-card>
@@ -33,18 +35,25 @@
 
 <script setup>
 import TeamMembersActive from '@/components/Settings/TeamMembers/TeamMembersActive.vue';
-import TeamMembersPending from '@/components/Settings/TeamMembers/TeamMembersPending.vue';
+import TeamInvitationsPending from '@/components/Settings/TeamMembers/TeamInvitationsPending.vue';
 import TeamMemberInviteButton from '@/components/Settings/TeamMembers/TeamMemberInviteButton.vue';
 import {useAsyncState} from '@vueuse/core';
 import {useTeamsStore} from '@/store/teams';
+import {computed} from 'vue';
 
 const teamStore = useTeamsStore()
 
 const {
   isLoading,
-  state: activeMembers,
+  state,
   execute
-} = useAsyncState(() => teamStore.getTeamMembers())
+} = useAsyncState(() => Promise.all([
+  teamStore.getTeamMembers(),
+  teamStore.getTeamInvitations(),
+]))
+
+const activeMembers = computed(() => state.value?.[0] || [])
+const invitationsPending = computed(() => state.value?.[1] || [])
 
 function onKick() {
   execute()
