@@ -22,11 +22,12 @@
       <template v-else>
         <TeamMembersActive
           :members="activeMembers"
-          @kick="onKick"
+          @kick="refresh"
         />
 
         <TeamInvitationsPending
           :invitations="invitationsPending"
+          @remove="refresh"
         />
       </template>
     </v-card-item>
@@ -55,7 +56,7 @@ const {
 const activeMembers = computed(() => state.value?.[0] || [])
 const invitationsPending = computed(() => state.value?.[1] || [])
 
-function onKick() {
+function refresh() {
   execute()
 }
 </script>

@@ -57,5 +57,10 @@ export const useTeamsStore = defineStore('teams', {
       return axios.get('api/team-invitations')
         .then(r => r.data.data)
     },
+
+    removeTeamInvitation(id) {
+      return axios.delete(`api/team-invitations/${id}`)
+        .then(r => r.data)
+    },
   }
 })
