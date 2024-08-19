@@ -14,25 +14,37 @@
         <v-card-title>Convidar</v-card-title>
 
         <v-card-text>
-          <v-form>
+          <v-alert
+            v-if="feedbackMessage"
+            color="error"
+            class="mb-2"
+          >{{ feedbackMessage }}</v-alert>
+
+          <v-form
+            @submit.stop.prevent="submit"
+          >
             <v-text-field
+              v-model="email"
+              :error-messages="errors.email"
               label="Email"
               variant="outlined"
               color="primary"
             />
 
             <v-select
+              v-model="role"
+              :error-messages="errors.role"
               label="Cargo"
               variant="outlined"
               color="primary"
               :items="[
                           {
                             label: 'Admin',
-                            value: 1
+                            value: 'admin'
                           },
                           {
                             label: 'Atendente',
-                            value: 2
+                            value: 'atendente'
                           }
                         ]"
               item-title="label"
@@ -51,6 +63,7 @@
                 flat
                 color="primary"
                 text="Convidar"
+                :loading="isSubmitting"
               />
             </div>
           </v-form>
@@ -59,3 +72,32 @@
     </template>
   </v-dialog>
 </template>
+
+<script setup>
+import {object, string} from 'yup';
+import {useField, useForm} from 'vee-validate';
+import {ref} from 'vue';
+import {useTeamsStore} from '@/store/teams';
+
+const teamStore = useTeamsStore()
+const schema = object({
+  email: string().required().email().label('E-mail'),
+  role: string().required().label('Cargo')
+})
+
+const {handleSubmit, errors, isSubmitting} = useForm({
+  validationSchema: schema,
+  initialValues: {
+    email: '',
+    role: 'admin'
+  }
+})
+
+const submit = handleSubmit(async (payload) => {
+  await teamStore.storeTeamInvitation(payload)
+})
+
+const {value: email} = useField('email')
+const {value: role} = useField('role')
+const feedbackMessage = ref('');
+</script>
