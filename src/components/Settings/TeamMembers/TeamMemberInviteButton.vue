@@ -1,5 +1,8 @@
 <template>
-  <v-dialog width="auto">
+  <v-dialog
+    v-model="modal"
+    width="auto"
+  >
     <template #activator="{ props: activatorProps }">
       <v-btn
         flat
@@ -79,6 +82,8 @@ import {useField, useForm} from 'vee-validate';
 import {ref} from 'vue';
 import {useTeamsStore} from '@/store/teams';
 
+const modal = ref(false)
+const emit = defineEmits(['done'])
 const teamStore = useTeamsStore()
 const schema = object({
   email: string().required().email().label('E-mail'),
@@ -94,7 +99,13 @@ const {handleSubmit, errors, isSubmitting} = useForm({
 })
 
 const submit = handleSubmit(async (payload) => {
-  await teamStore.storeTeamInvitation(payload)
+  try {
+    await teamStore.storeTeamInvitation(payload)
+    modal.value = false
+    emit('done')
+  } catch (e) {
+    feedbackMessage.value = e.message
+  }
 })
 
 const {value: email} = useField('email')

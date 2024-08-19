@@ -7,7 +7,9 @@
         </v-col>
 
         <v-col class="text-right">
-          <TeamMemberInviteButton/>
+          <TeamMemberInviteButton
+            @done="refresh"
+          />
         </v-col>
       </v-row>
 
