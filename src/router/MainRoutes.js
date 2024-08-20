@@ -53,5 +53,16 @@ export default [
         component: () => import('@/views/stripe/success.vue'),
       }
     ]
+  },
+  {
+    path: '/aceitar-convite',
+    component: () => import('@/layouts/blank/BlankLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'acceptInvitation',
+        component: () => import('@/views/accept-invitation/index.vue'),
+      }
+    ],
   }
 ];
