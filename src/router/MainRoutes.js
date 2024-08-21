@@ -1,4 +1,4 @@
-import { auth } from '@/router/guards';
+import {auth, checkIfTokenExists} from '@/router/guards';
 
 export default [
   {
@@ -56,6 +56,7 @@ export default [
   },
   {
     path: '/aceitar-convite',
+    beforeEnter: checkIfTokenExists,
     component: () => import('@/layouts/blank/BlankLayout.vue'),
     children: [
       {
