@@ -28,6 +28,7 @@
 
               <AcceptInvitation
                 v-else
+                :token="route.query.token"
                 :invitation="state"
               />
             </v-card-item>

@@ -72,5 +72,10 @@ export const useTeamsStore = defineStore('teams', {
       return axios.get(`api/team-invitations/${token}`)
         .then(r => r.data.data)
     },
+
+    acceptTeamInvitation(token) {
+      return axios.put(`api/team-invitations/${token}`)
+        .then(r => r.data.data)
+    },
   }
 })
