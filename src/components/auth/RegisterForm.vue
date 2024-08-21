@@ -17,6 +17,7 @@
               v-model="email"
               :error-messages="errors.email"
               variant="outlined"
+              :disabled="emailDisabled"
               type="email"
               color="primary" />
         </v-col>
@@ -49,6 +50,15 @@ import {useAuthStore} from '@/store/auth';
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
+const emit = defineEmits(['done'])
+const props = defineProps({
+  email: {
+    type: String,
+    default: ''
+  },
+  emailDisabled: Boolean
+})
+
 const schema = object({
   first_name: string().required().label('Nome'),
   email: string().required().email().label('E-mail'),
@@ -62,7 +72,7 @@ const {handleSubmit, errors, isSubmitting} = useForm({
   validationSchema: schema,
   initialValues: {
     first_name: '',
-    email: '',
+    email: props.email,
     password: ''
   }
 })
@@ -75,7 +85,7 @@ const submit = handleSubmit(async (values) => {
   await authStore.register(values.first_name, values.email, values.password)
     .then(async () => {
       await authStore.login(values.email, values.password)
-      router.push({ name: 'dashboard' })
+      emit('done')
     })
     .catch((e) => {
       feedbackMessage.value = e.message

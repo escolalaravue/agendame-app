@@ -1,20 +1,23 @@
 <template>
   <AcceptInvitationAccept
-    v-if="invitation.is_user"
+    v-if="isUser"
     :token="token"
     :invitation="invitation"
   />
 
   <AcceptInvitationRegister
     v-else
+    :invitation="invitation"
+    @done="isUser = true"
   />
 </template>
 
 <script setup>
 import AcceptInvitationAccept from '@/components/AcceptInvitation/AcceptInvitationAccept.vue';
 import AcceptInvitationRegister from '@/components/AcceptInvitation/AcceptInvitationRegister.vue';
+import {ref} from 'vue';
 
-defineProps({
+const props = defineProps({
   token: {
     type: String,
     required: true,
@@ -24,4 +27,6 @@ defineProps({
     required: true,
   }
 })
+
+const isUser = ref(props.invitation.is_user)
 </script>

@@ -1,6 +1,12 @@
 <script setup>
 import Logo from '@/layouts/full/logo/Logo.vue';
 import RegisterForm from '@/components/auth/RegisterForm.vue';
+import {useRouter} from 'vue-router';
+
+const router = useRouter()
+function afterRegister() {
+  router.push({ name: 'dashboard' })
+}
 </script>
 
 <template>
@@ -13,7 +19,9 @@ import RegisterForm from '@/components/auth/RegisterForm.vue';
                             <div class="d-flex justify-center py-4">
                                 <Logo />
                             </div>
-                            <RegisterForm />
+                            <RegisterForm
+                              @done="afterRegister"
+                            />
                             <h6 class="text-h6 text-muted font-weight-medium d-flex justify-center align-center mt-3">
                                 Já tem uma conta?
                                 <RouterLink :to="{ name: 'login' }"
