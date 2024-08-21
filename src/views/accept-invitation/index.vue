@@ -8,45 +8,28 @@
               <div class="d-flex justify-center py-4">
                 <Logo/>
               </div>
-
-              <v-alert
-                color="error"
-                class="mb-2"
-              >
-                Feedback
-              </v-alert>
-
               <div
-                class="text-center">
+                v-if="isLoading"
+                class="text-center"
+              >
                 <v-progress-circular
                   indeterminate
                   color="primary"
                 />
               </div>
 
-              <div>
-                <div class="mb-4">
-                  <p>Você foi convidado para participar o time "X" do AgendaMe.</p>
-                  <p>Por favor, faça seu cadastro abaixo.</p>
-                </div>
+              <v-alert
+                v-else-if="error"
+                color="error"
+                class="mb-2"
+              >
+                {{ error.message }}
+              </v-alert>
 
-                <RegisterForm />
-              </div>
-
-              <div>
-                <div class="mb-4">
-                  <h2>Entrar para o time "X" do AgendaMe.</h2>
-                </div>
-
-                <v-btn
-                  text="Aceitar Convite"
-                  flat
-                  block
-                  color="primary"
-                  size="large"
-                />
-              </div>
-
+              <AcceptInvitation
+                v-else
+                :invitation="state"
+              />
             </v-card-item>
           </v-card>
         </v-col>
@@ -57,5 +40,12 @@
 
 <script setup>
 import Logo from '@/layouts/full/logo/Logo.vue';
-import RegisterForm from '@/components/auth/RegisterForm.vue';
+import AcceptInvitation from '@/components/AcceptInvitation/AcceptInvitation.vue';
+import {useTeamsStore} from '@/store/teams';
+import {useAsyncState} from '@vueuse/core';
+import {useRoute} from 'vue-router';
+
+const teamStore = useTeamsStore()
+const route = useRoute()
+const {state, isLoading, error} = useAsyncState(() => teamStore.getTeamInvitation(route.query.token))
 </script>
