@@ -20,6 +20,7 @@
 
       <template #append>
         <TeamMemberKick
+          v-if="member.role !== 'admin' || adminCount > 1"
           :member-id="member.id"
           @done="() => emit('kick')"
         />
@@ -31,12 +32,15 @@
 <script setup>
 import TeamMemberKick from '@/components/Settings/TeamMembers/TeamMemberKick.vue';
 import TeamMemberUpdateRole from '@/components/Settings/TeamMembers/TeamMemberUpdateRole.vue';
+import {computed} from 'vue';
 
 const emit = defineEmits(['kick'])
-defineProps({
+const props = defineProps({
   members: {
     type: Array,
     default: () => []
   }
 })
+
+const adminCount = computed(() => props.members.filter(o => o.role === 'admin').length)
 </script>
